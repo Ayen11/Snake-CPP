@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include <windows.h>
 using namespace std;
 
 bool gameOver;
@@ -12,6 +13,7 @@ int nTail;
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN}; 
 eDirection dir;
 
+bool isBoundless = false;
 
 
 void Setup()
@@ -134,16 +136,32 @@ void Logic()
     }
 
 
-    if (/* condition */) //check for self collision
+    for (int i = 0; i < nTail; i++) //check for self collision
     {
-        /* code */
+        if(tailX[i] == x && tailY[i] == y)
+        gameOver = true;
     }
-    
 
-    if (x > width || x < 0 || y > height|| y < 0) //check for collision with boundries
+
+
+    switch (isBoundless)
     {
-    gameOver = true;
+    case true:
+        if (x >= width) x = 0; else if (x < 0) x = width - 1;
+        if (y >= height) y = 0; else if (y < 0) y = height - 1;
+        break;
+    
+    case false:
+        if (x > width || x < 0 || y > height|| y < 0) //check for collision with boundries
+        {
+        gameOver = true;
+        }        
+
+    default:
+        break;
     }
+
+
 
     if (x == fruitX && y == fruitY) //check for collision with fruit
     {
@@ -162,7 +180,7 @@ int main()
         Draw();
         Input();
         Logic();
-        _sleep(100);
+        Sleep(70);
     }
     
     return 0;
