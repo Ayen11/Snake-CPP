@@ -13,7 +13,7 @@ int nTail;
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN}; 
 eDirection dir;
 
-bool isBoundless = false;
+bool isBoundless = true; //change boundless here
 
 
 void Setup()
@@ -120,23 +120,39 @@ void Logic()
     switch (dir)
     {
     case LEFT:
-        x--;
+        if (dir != RIGHT)
+        {
+            x--;            
+        }
         break;
+
     case RIGHT:
-        x++;
+        if (dir != LEFT)
+        {
+            x++;
+        }
         break;
+
     case UP:
-        y--;
+        if (dir != DOWN)
+        {
+            y--;
+        }
         break;
+
     case DOWN:
-        y++;
-        break;    
+        if (dir != UP)
+        {
+            y++;
+        }
+        break;  
+
     default:
         break;
     }
 
 
-    for (int i = 0; i < nTail; i++) //check for self collision
+    for (int i = 0; i < nTail; i++) //checks for self collision
     {
         if(tailX[i] == x && tailY[i] == y)
         gameOver = true;
@@ -146,13 +162,13 @@ void Logic()
 
     switch (isBoundless)
     {
-    case true:
-        if (x >= width) x = 0; else if (x < 0) x = width - 1;
+    case true: //teleports player to other side of bounds on collision
+        if (x >= width) x = 0; else if (x < 0) x = width - 1; 
         if (y >= height) y = 0; else if (y < 0) y = height - 1;
         break;
     
-    case false:
-        if (x > width || x < 0 || y > height|| y < 0) //check for collision with boundries
+    case false: //checks for collision with boundries
+        if (x > width || x < 0 || y > height|| y < 0) 
         {
         gameOver = true;
         }        
@@ -163,7 +179,7 @@ void Logic()
 
 
 
-    if (x == fruitX && y == fruitY) //check for collision with fruit
+    if (x == fruitX && y == fruitY) //checks for collision with fruit
     {
     score += 10;
     fruitX = rand() % width;
