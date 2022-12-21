@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 bool gameOver;
 const int width = 20;
 const int height = 20;
@@ -60,4 +61,4 @@ int Main(){
     }
     
     return 0;
-}
+} 
